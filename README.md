@@ -18,7 +18,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+```ruby
+Harrods.how_much? do
+  expensive_method_call_in_here
+end
+```
 
 ## Contributing
 
