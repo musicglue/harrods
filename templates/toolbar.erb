@@ -1,0 +1,12 @@
+<div id="harrodsStatusBar">
+    <div class="background"></div>
+    <div id="harrodsContainer">
+        <h4>HARRODS</h4>
+<p class="ram-usage">RAM <%= @ram %>/<%=  @stats[:ram_formatted] %></p><p class="object-usage">OBJECTS <%= @objects %>/<%= @stats[:objects_formatted] %></p>
+    <div class="sparkline"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('.sparkline').sparkline([<%= @raw_ram_usage.join(",") %>], {type: 'bar'});
+</script>

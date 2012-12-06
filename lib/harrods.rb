@@ -3,6 +3,8 @@ require "harrods/redis_client"
 require "harrods/configuration"
 require "harrods/presenter"
 require "harrods/middleware"
+require "harrods/database"
+require "harrods/tracer"
 
 module Harrods
   extend Presenter
@@ -18,6 +20,7 @@ module Harrods
   
   def self.how_much?(&block)
     start_ram, start_objects = begin_analysis
+    used_ram, used_objects = nil, nil
     begin
       yield
     ensure
@@ -29,6 +32,7 @@ module Harrods
   
   def self.personalised_service(request, &block)
     start_ram, start_objects = begin_analysis
+    used_ram, used_objects   = nil, nil
     begin
       yield
     ensure
@@ -37,6 +41,7 @@ module Harrods
       log(used_ram, used_objects)
       report_average(request)
     end
+    return [used_ram, used_objects]
   end
   
   def self.for_your_pleasure(request, type="average")
@@ -44,16 +49,7 @@ module Harrods
     puts stats
   end
   
-  private
-  def self.begin_analysis
-    GC.enable
-    GC.enable_stats
-    return [GC.allocated_size.to_i, ObjectSpace.allocated_objects.to_i]
-  end
-  
-  def self.end_analysis(start_ram, start_objects)
-    return [GC.allocated_size.to_i - start_ram, ObjectSpace.allocated_objects.to_i - start_objects]
-  end
+
   
   def self.report_average(request)
     average = RedisClient.get_average_for(request)
