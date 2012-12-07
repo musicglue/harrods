@@ -5,6 +5,8 @@ require "harrods/presenter"
 require "harrods/middleware"
 require "harrods/database"
 require "harrods/tracer"
+require "harrods/basic_middleware"
+require "harrods/logger"
 
 module Harrods
   extend Presenter

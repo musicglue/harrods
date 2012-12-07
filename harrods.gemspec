@@ -22,4 +22,6 @@ Gem::Specification.new do |gem|
   gem.add_dependency "sinatra"
   gem.add_dependency "erubis"
   gem.add_dependency "daybreak"
+  gem.add_dependency "colorize"
+
 end
